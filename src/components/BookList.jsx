@@ -1,4 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import {
+  Button,
+  Card,
+  CardActionAre,
+  CardActions,
+  CardContent,
+  Grid,
+  Typography,
+} from '@material-ui/core';
+
 const BookList = ({ books, loading, error }) => {
   if (loading) {
     return <p>Loading...</p>;
@@ -12,7 +23,7 @@ const BookList = ({ books, loading, error }) => {
       {books.map((book) => (
         <div className="book-item" key={book.id}>
           <h2 className="title">{book.name}</h2>
-          <a href={`books/${book.id}`}>View Details</a>
+          <Link to={`/books/${book.id}`}>View Details</Link>
         </div>
       ))}
     </div>
