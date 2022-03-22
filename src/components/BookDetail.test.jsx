@@ -39,4 +39,22 @@ describe('BookDetail', () => {
     const description = container.querySelector('p.book-description');
     expect(description.innerHTML).toEqual(props.book.name);
   });
+
+  it('shows *more* when the description it too long', () => {
+    const props = {
+      book: {
+        name: 'Refactoring',
+        description:
+          "Martin Fowler's Refactoring defined core ideas and techniques that hundreds of thousands of developers have used to improve their software.Martin Fowler's Refactoring defined core ideas and techniques that hundreds of thousands of developers have used to improve their software.Martin Fowler's Refactoring defined core ideas and techniques that hundreds of thousands of developers have used to improve their software.",
+      },
+    };
+
+    const { container } = render(<BookDetail {...props} />);
+    const link = container.querySelector('.show-more');
+    const title = container.querySelector('p.book-description');
+    expect(link.innerHTML).toEqual('Show More');
+    expect(title.innerHTML).toEqual(
+      "Martin Fowler's Refactoring defined core ideas and techniques that hundreds of thousands of developers have used to improve their software.Martin Fowler's Refactoring defined core ideas and techniques that hundreds of thousands of developers have used to improve their software.Martin Fowler's Refact... "
+    );
+  });
 });
