@@ -5,7 +5,7 @@ import { clone, isEmpty } from 'lodash';
 const SearchBox = ({ term, onSearch }) => {
   const protect = (event) => {
     const value = clone(event.target.value);
-    if (!isEmpty(value.trim()) && term.length >= 0) {
+    if (!isEmpty(value.trim()) || value.length === ' ') {
       return onSearch(event);
     }
   };

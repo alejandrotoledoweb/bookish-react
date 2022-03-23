@@ -15,7 +15,7 @@ const BookDetail = ({ book }) => {
     if (book.description && book.description.length > limit) {
       setShowMore(true);
     }
-  }, [book]);
+  }, [book, limit]);
   const getDescriptionFor = (book) => {
     return book.description ? (
       book.description.length > limit && showMore ? (
