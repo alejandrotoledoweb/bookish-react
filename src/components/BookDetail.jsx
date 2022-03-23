@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const BookDetail = ({ book }) => {
   const [limit] = useState(300);
-  const [showMore, setShowMore] = useState(true);
+  const [showMore, setShowMore] = useState(false);
   const [showLess, setShowLess] = useState(false);
 
   const handleShowText = (e) => {
@@ -10,6 +10,12 @@ const BookDetail = ({ book }) => {
     setShowMore(!showMore);
     setShowLess(!showLess);
   };
+
+  useEffect(() => {
+    if (book.description && book.description.length > limit) {
+      setShowMore(true);
+    }
+  }, [book]);
   const getDescriptionFor = (book) => {
     return book.description ? (
       book.description.length > limit && showMore ? (

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as actions from './actions/actions';
 import store from './store';
+
 describe('Store', () => {
   const books = [{ id: 1, name: 'Refactoring' }];
 
