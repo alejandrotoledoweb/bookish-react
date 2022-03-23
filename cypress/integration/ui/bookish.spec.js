@@ -8,9 +8,7 @@ describe('Bookish application', () => {
   });
 
   afterEach(() => {
-    return axios
-      .delete('http://localhost:8080/books?_cleanup=true')
-      .catch((err) => err);
+    cleanUpStubBooks();
   });
 
   beforeEach(() => {
@@ -30,6 +28,12 @@ describe('Bookish application', () => {
         headers: { 'Content-Type': 'application/json' },
       })
     );
+  };
+
+  const cleanUpStubBooks = () => {
+    return axios
+      .delete('http://localhost:8080/books?_cleanup=true')
+      .catch((err) => err);
   };
 
   const goToApp = () => {
@@ -63,12 +67,10 @@ describe('Bookish application', () => {
   };
 
   it('visit the bookish', () => {
-    goToApp();
     CheckAppTitle();
   });
 
   it('Shows a book list', async () => {
-    goToApp();
     checkBookList();
     // await cy.get('div[data-test="book-list"').should('exist');
     // await cy.get('div.book-item').should('have.length', 3);
@@ -85,14 +87,12 @@ describe('Bookish application', () => {
   });
 
   it('Goes to the detail page', () => {
-    cy.visit('http://localhost:3000/');
     cy.get('div.book-item').contains('View Details').eq(0).click();
     cy.url().should('include', 'books/1');
     cy.get('h2.book-title').contains('Refactoring');
   });
 
   it('searches for a title', () => {
-    cy.visit('http://localhost:3000/');
     cy.get('div.book-item').should('have.length', 3);
     cy.get('[data-test="search"] input').type('design');
     checkSearchResult();
