@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRemoteService } from './hooks/Hooks';
 import BookDetail from './BookDetail';
@@ -9,6 +9,7 @@ const BookDetailContainer = () => {
     `http://localhost:8080/books/${params.id}`,
     []
   );
+
   return <BookDetail book={data} />;
 };
 
