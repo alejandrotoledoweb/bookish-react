@@ -1,19 +1,19 @@
-import { setSearchTerm, fetchBooks } from './actions';
+import * as actions from './actions';
 import axios from 'axios';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as types from './types';
 
 describe('BookListContainer related actions', () => {
-  const middleware = [thunk];
-  const mockStore = configureMockStore(middleware);
+  const middlewares = [thunk];
+  const mockStore = configureMockStore(middlewares);
   it('Sets the search keyboard', () => {
     const term = 'a';
     const expected = {
       type: types.SET_SEARCH_TERM,
       term,
     };
-    const action = setSearchTerm(term);
+    const action = actions.setSearchTerm(term);
     expect(action).toEqual(expected);
   });
 
@@ -30,7 +30,7 @@ describe('BookListContainer related actions', () => {
       { type: types.FETCH_BOOKS_SUCCESS, books },
     ];
     const store = mockStore({ books: [] });
-    return store.dispatch(fetchBooks()).then(() => {
+    return store.dispatch(actions.fetchBooks()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -46,7 +46,7 @@ describe('BookListContainer related actions', () => {
       { type: types.FETCH_BOOKS_FAILED, err: 'Something went wrong' },
     ];
     const store = mockStore({ books: [] });
-    return store.dispatch(fetchBooks('')).then(() => {
+    return store.dispatch(actions.fetchBooks('')).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -61,7 +61,7 @@ describe('BookListContainer related actions', () => {
       .fn()
       .mockImplementation(() => Promise.resolve({ data: books }));
     const store = mockStore({ books: [] });
-    return store.dispatch(fetchBooks('domain')).then((res) => {
+    return store.dispatch(actions.fetchBooks('domain')).then((res) => {
       expect(axios.get).toHaveBeenCalledWith(
         'http://localhost:8080/books?q=domain'
       );
