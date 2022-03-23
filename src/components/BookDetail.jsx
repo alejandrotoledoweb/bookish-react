@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const BookDetail = ({ book }) => {
   const [limit] = useState(300);
@@ -27,14 +27,14 @@ const BookDetail = ({ book }) => {
       <h2 className="book-title">{book.name}</h2>
       <p className="book-description">{getDescriptionFor(book)}</p>
       {showMore && (
-        <a href="#" className="show-more" onClick={handleShowText}>
+        <button className="show-more" onClick={handleShowText}>
           Show More
-        </a>
+        </button>
       )}
       {showLess && (
-        <a href="#" className="show-more" onClick={handleShowText}>
+        <button className="show-more" onClick={handleShowText}>
           Show Less
-        </a>
+        </button>
       )}
     </div>
   );
