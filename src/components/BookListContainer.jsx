@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BookList from './BookList';
 import { useRemoteService } from './hooks/Hooks';
 import SearchBox from './SearchBox';
+import { clone, isEmpty } from 'lodash';
 
 const BookListContainer = () => {
   const [term, setTerm] = useState('');
@@ -16,7 +17,7 @@ const BookListContainer = () => {
 
   useEffect(() => {
     setUrl(`http://localhost:8080/books?q=${term}`);
-  }, [term]);
+  }, [term, setUrl]);
 
   return (
     <>

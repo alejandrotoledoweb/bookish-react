@@ -16,4 +16,16 @@ describe('SearchBox', () => {
     userEvent.type(input, 'domain');
     expect(props.onSearch).toHaveBeenCalled();
   });
+
+  it('trim empty strings', () => {
+    const props = {
+      term: '',
+      onSearch: jest.fn(),
+    };
+
+    const { container } = render(<SearchBox {...props} />);
+    const input = container.querySelector('input[type="text"]');
+    userEvent.type(input, '   ');
+    expect(props.onSearch).not.toHaveBeenCalled();
+  });
 });

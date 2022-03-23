@@ -14,6 +14,11 @@ describe('Bookish application', () => {
   });
 
   beforeEach(() => {
+    feedStubBooks();
+    goToApp();
+  });
+
+  const feedStubBooks = () => {
     const books = [
       { name: 'Building Microservices', id: 3 },
       { name: 'Domain-driven design', id: 2 },
@@ -25,27 +30,58 @@ describe('Bookish application', () => {
         headers: { 'Content-Type': 'application/json' },
       })
     );
-  });
+  };
+
+  const goToApp = () => {
+    cy.visit('http://localhost:3000/');
+  };
+
+  const CheckAppTitle = () => {
+    cy.get('h2[data-test="heading"]').contains('Bookish');
+  };
+
+  const checkBookListWith = (expectation = []) => {
+    cy.get('div[data-test="book-list"]').should('exist');
+    cy.get('div.book-item').should((books) => {
+      expect(books).to.have.length(expectation.length);
+      const titles = [...books].map((x) => x.querySelector('h2').innerHTML);
+      expect(titles).to.deep.equal(expectation);
+    });
+  };
+
+  const checkBookList = () => {
+    checkBookListWith([
+      'Refactoring',
+      'Domain-driven design',
+      'Building Microservices',
+      'Acceptance Test Driven Development with React',
+    ]);
+  };
+
+  const checkSearchResult = () => {
+    checkBookListWith(['Domain-driven design']);
+  };
 
   it('visit the bookish', () => {
-    cy.visit('http://localhost:3000/');
-    cy.get('h2[data-test="heading"]').contains('Bookish');
+    goToApp();
+    CheckAppTitle();
   });
 
   it('Shows a book list', async () => {
-    cy.visit('http://localhost:3000/');
-    await cy.get('div[data-test="book-list"').should('exist');
-    await cy.get('div.book-item').should('have.length', 3);
-    await cy.get('div.book-item').should((books) => {
-      expect(books).to.have.length(2);
+    goToApp();
+    checkBookList();
+    // await cy.get('div[data-test="book-list"').should('exist');
+    // await cy.get('div.book-item').should('have.length', 3);
+    // await cy.get('div.book-item').should((books) => {
+    //   expect(books).to.have.length(2);
 
-      const titles = [...books].map((x) => x.querySelector('h2').innerHTML);
-      expect(titles).to.deep.equal([
-        'Refactoring',
-        'Domain-driven design',
-        'Building Microservices',
-      ]);
-    });
+    //   const titles = [...books].map((x) => x.querySelector('h2').innerHTML);
+    //   expect(titles).to.deep.equal([
+    //     'Refactoring',
+    //     'Domain-driven design',
+    //     'Building Microservices',
+    //   ]);
+    // });
   });
 
   it('Goes to the detail page', () => {
@@ -59,7 +95,8 @@ describe('Bookish application', () => {
     cy.visit('http://localhost:3000/');
     cy.get('div.book-item').should('have.length', 3);
     cy.get('[data-test="search"] input').type('design');
-    cy.get('div.book-item').should('have.length', 1);
-    cy.get('div.book-item').eq(0).contains('Domain-driven design');
+    checkSearchResult();
+    // cy.get('div.book-item').should('have.length', 1);
+    // cy.get('div.book-item').eq(0).contains('Domain-driven design');
   });
 });
