@@ -1,0 +1,36 @@
+import { setSearchTerm, fetchBooks } from './actions';
+import axios from 'axios';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+
+describe('BookListContainer related actions', () => {
+  const middleware = [thunk];
+  const mockStore = configureMockStore(middleware);
+  it('Sets the search keyboard', () => {
+    const term = 'a';
+    const expected = {
+      type: 'SET_SEARCH_TERM',
+      term,
+    };
+    const action = setSearchTerm(term);
+    expect(action).toEqual(expected);
+  });
+
+  it('fetch data successfully', () => {
+    const books = [
+      { id: 1, name: 'Refactoring' },
+      { id: 2, name: 'Domain-driven design' },
+    ];
+    axios.get = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({ data: books }));
+    const expectedActions = [
+      { type: 'FETCH_BOOKS_PENDING' },
+      { type: 'FETCH_BOOKS_SUCCESS', books },
+    ];
+    const store = mockStore({ books: [] });
+    return store.dispatch(fetchBooks()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+});
