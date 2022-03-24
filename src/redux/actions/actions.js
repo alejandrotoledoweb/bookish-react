@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export const setSearchTerm = (term) => {
-  return { type: 'SET_SEARCH_TERM', term };
+export const setSearchTerm = (term) => (dispatch) => {
+  dispatch({ type: 'SET_SEARCH_TERM', term });
 };
 
 // export const fetchBooks = (term) => {

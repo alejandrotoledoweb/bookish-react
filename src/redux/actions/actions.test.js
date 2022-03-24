@@ -14,8 +14,10 @@ describe('BookListContainer related actions', () => {
       type: types.SET_SEARCH_TERM,
       term,
     };
-    const action = actions.setSearchTerm(term);
-    expect(action).toEqual(expected);
+    const store = mockStore({ books: [] });
+    const state = store.getState();
+    return store.dispatch(actions.setSearchTerm(term));
+    expect(state.term).toEqual(expected.term);
   });
 
   it('fetch data successfully', () => {
