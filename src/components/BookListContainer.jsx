@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import BookList from './BookList';
 import { useRemoteService } from './hooks/Hooks';
 import SearchBox from './SearchBox';
+import { useDispatch } from 'react-redux';
+import * as actions from '../redux/actions/actions';
 
 const BookListContainer = () => {
   const [term, setTerm] = useState('');
