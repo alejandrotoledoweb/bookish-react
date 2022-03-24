@@ -3,12 +3,13 @@ import axios from 'axios';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as types from './types';
+// import { store as myStore } from '../store';
 
 describe('BookListContainer related actions', () => {
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
   it('Sets the search keyboard', () => {
-    const term = 'a';
+    const term = '';
     const expected = {
       type: types.SET_SEARCH_TERM,
       term,
@@ -51,7 +52,7 @@ describe('BookListContainer related actions', () => {
     });
   });
 
-  it('searches data with term', () => {
+  it('Searches data with term', () => {
     const books = [
       { id: 1, name: 'Refactoring' },
       { id: 2, name: 'Domain-driven design' },
@@ -60,8 +61,31 @@ describe('BookListContainer related actions', () => {
     axios.get = jest
       .fn()
       .mockImplementation(() => Promise.resolve({ data: books }));
-    const store = mockStore({ books: [] });
-    return store.dispatch(actions.fetchBooks('domain')).then((res) => {
+    const store = mockStore({ term: 'domain' });
+
+    return store.dispatch(actions.fetchBooks()).then(() => {
+      const state = store.getState();
+      const newTerm = state.term;
+      expect(newTerm).toEqual('domain');
+      expect(axios.get).toHaveBeenCalledWith(
+        'http://localhost:8080/books?q=domain'
+      );
+    });
+  });
+
+  it('Performs a search', () => {
+    const books = [
+      { id: 1, name: 'Refactoring' },
+      { id: 2, name: 'Domain-driven design' },
+    ];
+    axios.get = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({ data: books }));
+    const store = mockStore({ books: [], term: 'domain' });
+    store.dispatch(actions.setSearchTerm('domain'));
+    return store.dispatch(actions.fetchBooks()).then(() => {
+      const state = store.getState();
+      expect(state.term).toEqual('domain');
       expect(axios.get).toHaveBeenCalledWith(
         'http://localhost:8080/books?q=domain'
       );

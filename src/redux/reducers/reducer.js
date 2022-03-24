@@ -11,6 +11,11 @@ const reducer = (state = [], action) => {
       return {
         books: action.books,
       };
+    case types.SET_SEARCH_TERM:
+      return {
+        ...state,
+        term: action.term,
+      };
     default:
       return state;
   }
