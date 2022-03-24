@@ -7,6 +7,7 @@ import * as actions from '../redux/actions/actions';
 
 const BookListContainer = () => {
   const [term, setTerm] = useState('');
+  const dispatch = useDispatch();
   const { data, loading, error, setUrl } = useRemoteService(
     'http://localhost:8080/books',
     []
@@ -17,8 +18,8 @@ const BookListContainer = () => {
   };
 
   useEffect(() => {
-    setUrl(`http://localhost:8080/books?q=${term}`);
-  }, [term, setUrl]);
+    dispatch(actions.fetchBooks(term));
+  }, [term, dispatch]);
 
   return (
     <>
