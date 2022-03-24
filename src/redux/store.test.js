@@ -15,4 +15,14 @@ describe('Store', () => {
       expect(state.books).toBe(books);
     });
   });
+
+  it('Fetch a book from remote', () => {
+    axios.get = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({ data: books[0] }));
+    return store.dispatch(actions.fetchABook(1)).then(() => {
+      const state = store.getState();
+      expect(state.book).toEqual(books[0]);
+    });
+  });
 });

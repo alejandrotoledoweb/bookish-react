@@ -12,25 +12,25 @@ const BookDetail = ({ book }) => {
   };
 
   useEffect(() => {
-    if (book.description && book.description.length > limit) {
+    if (book?.description && book?.description.length > limit) {
       setShowMore(true);
     }
   }, [book, limit]);
   const getDescriptionFor = (book) => {
-    return book.description ? (
+    return book?.description ? (
       book.description.length > limit && showMore ? (
         <>{book.description.substring(0, limit) + '...'} </>
       ) : (
         book.description
       )
     ) : (
-      book.name
+      book?.name
     );
   };
 
   return (
     <div className="detail">
-      <h2 className="book-title">{book.name}</h2>
+      <h2 className="book-title">{book?.name}</h2>
       <p className="book-description">{getDescriptionFor(book)}</p>
       {showMore && (
         <button className="show-more" onClick={handleShowText}>

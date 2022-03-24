@@ -3,21 +3,22 @@ import axios from 'axios';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as types from './types';
-// import { store as myStore } from '../store';
 
 describe('BookListContainer related actions', () => {
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
   it('Sets the search keyboard', () => {
-    const term = '';
+    const term = 'a';
     const expected = {
       type: types.SET_SEARCH_TERM,
       term,
     };
-    const store = mockStore({ books: [] });
-    const state = store.getState();
-    return store.dispatch(actions.setSearchTerm(term));
-    expect(state.term).toEqual(expected.term);
+    // const store = mockStore({ books: [] });
+    // const state = store.getState();
+    // return store.dispatch(actions.setSearchTerm(term));
+    // expect(state).toEqual(expected);
+    const action = actions.setSearchTerm(term);
+    expect(action).toEqual(expected);
   });
 
   it('fetch data successfully', () => {

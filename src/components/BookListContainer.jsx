@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import BookList from './BookList';
-import { useRemoteService } from './hooks/Hooks';
+// import { useRemoteService } from './hooks/Hooks';
 import SearchBox from './SearchBox';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../redux/actions/actions';
@@ -17,15 +17,17 @@ const BookListContainer = () => {
   const onSearch = (e) => {
     dispatch(actions.setSearchTerm(e.target.value));
     dispatch(actions.fetchBooks());
+    setTerm(e.target.value);
   };
 
   const { books, loading, error } = useSelector(bookListSelector);
+  // const { term } = useSelector((state) => state.term);
   // const onSearch = (e) => {
   //   setTerm(e.target.value);
   // };
 
   useEffect(() => {
-    dispatch(actions.fetchBooks(term));
+    dispatch(actions.fetchBooks());
   }, [term, dispatch]);
 
   return (

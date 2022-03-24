@@ -38,7 +38,7 @@ const BookList = ({ books, loading, error }) => {
   return (
     <div data-test="book-list" className={classes.root}>
       <Grid container spacing={3}>
-        {books.map((book) => (
+        {books?.map((book) => (
           <Grid item xs={4} sm={4} key={book.id} className="book-item">
             <Card>
               <CardActionArea>
