@@ -18,9 +18,9 @@ describe('Bookish application', () => {
 
   const feedStubBooks = () => {
     const books = [
-      { name: 'Refactoring', id: 1 },
-      { name: 'Domain-driven design', id: 2 },
       { name: 'Building Microservices', id: 3 },
+      { name: 'Domain-driven design', id: 2 },
+      { name: 'Refactoring', id: 1 },
     ];
 
     return books.map(async (item) =>

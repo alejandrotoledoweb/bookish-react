@@ -26,7 +26,7 @@ describe('ReviewList', () => {
 
     const { container } = render(<ReviewList {...props} />);
     const reviews = container.querySelectorAll(
-      '[data-test="reviews-container"] .review'
+      '[data-test="reviews-container"] .review .name'
     );
     expect(reviews.length).toBe(2);
     expect(reviews[0].innerHTML).toBe('Juntao');

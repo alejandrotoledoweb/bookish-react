@@ -1,12 +1,11 @@
 import React from 'react';
+import { Review } from './Review';
 
 const ReviewList = ({ reviews }) => {
   return (
     <div data-test="reviews-container">
-      {reviews.map((review) => (
-        <div key={review.name + review.date} className="review">
-          {review.name}
-        </div>
+      {reviews.map((review, index) => (
+        <Review key={index} review={review} />
       ))}
     </div>
   );

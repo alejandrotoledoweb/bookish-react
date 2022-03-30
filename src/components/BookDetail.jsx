@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import ReviewList from './ReviewList';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import { useDispatch } from 'react-redux';
-import * as actions from '../redux/actions/actions';
+import ReviewForm from './ReviewForm';
 
 const BookDetail = ({ book }) => {
   const [limit] = useState(300);
   const [showMore, setShowMore] = useState(false);
   const [showLess, setShowLess] = useState(false);
-  const [name, setName] = useState('');
-  const [content, setContent] = useState('');
-  const dispatch = useDispatch();
 
   const handleShowText = (e) => {
     e.preventDefault();
@@ -50,38 +44,8 @@ const BookDetail = ({ book }) => {
           Show Less
         </button>
       )}
-      <form noValidate autoComplete="off">
-        {' '}
-        <TextField
-          label="Name"
-          name="name"
-          margin="normal"
-          variant="outlined"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />{' '}
-        <TextField
-          name="content"
-          label="Content"
-          margin="normal"
-          variant="outlined"
-          multiline
-          maxRows="4"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-        <Button
-          onClick={() =>
-            dispatch(actions.saveReview(book.id, { name, content }))
-          }
-          variant="contained"
-          color="primary"
-          name="submit"
-        >
-          Submit
-        </Button>
-      </form>
 
+      <ReviewForm id={book?.id} />
       {book?.reviews && <ReviewList reviews={book.reviews} />}
     </div>
   );
