@@ -7,6 +7,8 @@ import * as actions from '../redux/actions/actions';
 const ReviewForm = ({ id }) => {
   const [name, setName] = useState('');
   const [content, setContent] = useState('');
+  const [editing, setEditing] = useState(false);
+
   const dispatch = useDispatch();
 
   return (
