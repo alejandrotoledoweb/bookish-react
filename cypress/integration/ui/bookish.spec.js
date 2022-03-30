@@ -18,9 +18,9 @@ describe('Bookish application', () => {
 
   const feedStubBooks = () => {
     const books = [
-      { name: 'Building Microservices', id: 3 },
-      { name: 'Domain-driven design', id: 2 },
       { name: 'Refactoring', id: 1 },
+      { name: 'Domain-driven design', id: 2 },
+      { name: 'Building Microservices', id: 3 },
     ];
 
     return books.map(async (item) =>
@@ -86,9 +86,14 @@ describe('Bookish application', () => {
     // });
   });
 
+  const gotoNthBookInTheList = (number) => {
+    cy.get('div.book-item').contains('View Details').eq(number).click();
+  };
+
   it('Goes to the detail page', () => {
-    cy.get('div.book-item').contains('View Details').eq(0).click();
-    cy.url().should('include', 'books/1');
+    // cy.get('div.book-item').contains('View Details').eq(0).click();
+    gotoNthBookInTheList(0);
+    cy.url().should('include', `books/${0 + 1}`);
     cy.get('h2.book-title').contains('Refactoring');
   });
 
@@ -98,5 +103,21 @@ describe('Bookish application', () => {
     checkSearchResult();
     // cy.get('div.book-item').should('have.length', 1);
     // cy.get('div.book-item').eq(0).contains('Domain-driven design');
+  });
+
+  const checkBookDetail = (title) => {
+    cy.get('h2.book-title').contains(title);
+  };
+
+  it('Write a review for a book', () => {
+    gotoNthBookInTheList(0);
+    checkBookDetail('Refactoring');
+    cy.get('input[name="name"]').type('Juntao Qiu');
+    cy.get('textarea[name="content"]').type('Excellent work!');
+    cy.get('button[name="submit"]').click();
+    cy.get('div[data-test="reviews-container"] .review').should(
+      'have.length',
+      1
+    );
   });
 });

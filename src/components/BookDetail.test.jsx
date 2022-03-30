@@ -1,8 +1,19 @@
 import BookDetail from './BookDetail';
 import { render } from '@testing-library/react';
-import toBeInTheDocument from '@testing-library/jest-dom';
+import { toBeInTheDocument } from '@testing-library/jest-dom';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
 
 describe('BookDetail', () => {
+  const middlewares = [thunk];
+  const mockStore = configureMockStore(middlewares);
+  const store = mockStore({ books: [], term: '' });
+
+  const renderWithProvider = (component) => {
+    return { ...render(<Provider store={store}>{component} </Provider>) };
+  };
+
   it('renders title', () => {
     const props = {
       book: {
@@ -10,7 +21,7 @@ describe('BookDetail', () => {
       },
     };
 
-    const { container } = render(<BookDetail {...props} />);
+    const { container } = renderWithProvider(<BookDetail {...props} />);
     const title = container.querySelector('.book-title');
     expect(title.innerHTML).toEqual(props.book.name);
   });
@@ -24,7 +35,7 @@ describe('BookDetail', () => {
       },
     };
 
-    const { container } = render(<BookDetail {...props} />);
+    const { container } = renderWithProvider(<BookDetail {...props} />);
     const description = container.querySelector('.book-description');
     expect(description.innerHTML).toEqual(props.book.description);
   });
@@ -36,7 +47,7 @@ describe('BookDetail', () => {
       },
     };
 
-    const { container } = render(<BookDetail {...props} />);
+    const { container } = renderWithProvider(<BookDetail {...props} />);
     const description = container.querySelector('p.book-description');
     expect(description.innerHTML).toEqual(props.book.name);
   });
@@ -50,7 +61,7 @@ describe('BookDetail', () => {
       },
     };
 
-    const { container } = render(<BookDetail {...props} />);
+    const { container } = renderWithProvider(<BookDetail {...props} />);
     const link = container.querySelector('.show-more');
     const title = container.querySelector('p.book-description');
     expect(link.innerHTML).toEqual('Show More');
@@ -68,7 +79,7 @@ describe('BookDetail', () => {
       },
     };
 
-    const { container } = render(<BookDetail {...props} />);
+    const { container } = renderWithProvider(<BookDetail {...props} />);
     const form = container.querySelector('form');
     const nameInput = container.querySelector('input[name="name"]');
     const contentTextArea = container.querySelector('textarea[name="content"]');

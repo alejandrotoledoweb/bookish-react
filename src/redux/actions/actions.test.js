@@ -94,4 +94,22 @@ describe('BookListContainer related actions', () => {
       );
     });
   });
+
+  it('Saves a review for a book', () => {
+    const review = {
+      name: 'Juntao Qiu',
+      content: 'Excellent work!!',
+    };
+
+    axios.post = jest.fn().mockImplementation(() => Promise.resolve({}));
+    const store = mockStore({ books: [], term: '' });
+    const id = 1;
+    return store.dispatch(actions.saveReview(id, review)).then(
+      () => expect(axios.post).toHaveBeenCalledTimes(1)
+      // expect(axios.post).toHaveBeenNthCalledWith(
+      //   'http://localhost:8080/books/1',
+      //   review
+      // )
+    );
+  });
 });

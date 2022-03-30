@@ -31,7 +31,8 @@
     "eject": "react-scripts eject",
     "e2e": "npx cypress run",
     "stub-server": "json-server --watch src/stub-server/books.json --port 8080",
-    "mock-server": "node src/stub-server/server.js"
+    "mock-server": "node src/stub-server/server.js",
+    "c:open": "cypress open"
   },
   "eslintConfig": {
     "extends": [

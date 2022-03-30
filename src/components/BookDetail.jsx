@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import ReviewList from './ReviewList';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { useDispatch } from 'react-redux';
+import * as actions from '../redux/actions/actions';
 
 const BookDetail = ({ book }) => {
   const [limit] = useState(300);
@@ -9,6 +11,7 @@ const BookDetail = ({ book }) => {
   const [showLess, setShowLess] = useState(false);
   const [name, setName] = useState('');
   const [content, setContent] = useState('');
+  const dispatch = useDispatch();
 
   const handleShowText = (e) => {
     e.preventDefault();
@@ -67,7 +70,14 @@ const BookDetail = ({ book }) => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
-        <Button variant="contained" color="primary" name="submit">
+        <Button
+          onClick={() =>
+            dispatch(actions.saveReview(book.id, { name, content }))
+          }
+          variant="contained"
+          color="primary"
+          name="submit"
+        >
           Submit
         </Button>
       </form>
