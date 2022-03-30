@@ -14,7 +14,6 @@ const BookDetailContainer = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log({ params });
     dispatch(actions.fetchABook(params.id));
   }, [params, dispatch]);
 
