@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Review = ({ review }) => {
+const Review = ({ review }) => {
   return (
     <div className="review">
       <span className="name">{review.name}</span>
@@ -9,3 +9,5 @@ export const Review = ({ review }) => {
     </div>
   );
 };
+
+export default Review;
